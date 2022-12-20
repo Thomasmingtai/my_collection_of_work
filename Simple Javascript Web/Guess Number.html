@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Guess Number</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <style>
+            *{
+                box-sizing: border-box;
+                font-size: 2rem;
+            }
+            #print{
+                width: 60vw;
+                height: 45vh;
+                background-color: blanchedalmond;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            #content{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            div{
+                text-align: center;
+            }
+        </style>
+        
+        <script language="javascript">
+            var anser, max, min;
+            function main(){
+                var guess = parseInt(document.getElementById("guess").value);
+                if(guess > max || guess < min)
+                    alert("範圍外");
+                else if(guess > anser){
+                    alert("答案過大");
+                    max = guess;
+                    document.getElementById("spmax").innerHTML=max;
+                }
+                else if(guess < anser){
+                    alert("答案過小");
+                    min = guess;
+                    document.getElementById("spmin").innerHTML=min;
+                }
+                else
+                    alert("恭喜過關");
+            }
+            function reset(){
+                anser=Math.floor(Math.random()*100);
+                max = 100;
+                min = 0;
+                document.getElementById("spmax").innerHTML=max;
+                document.getElementById("spmin").innerHTML=min;
+            }
+        </script>
+    </head>
+    <body onload="reset()" >
+        
+        <div>
+            <br>
+            <input type="text" id="guess" placeholder="輸入介於100~0之間的數字">
+            <input type="button" id="run" value="run" onclick="main()">
+            <input type="button" id="restart" value="restart" onclick="reset()">
+            <br>
+        </div>
+        <hr>
+        <div id="content">
+            <div id="print">
+                <label>答案介於</label>
+
+                <span id="spmax"></span><label>到</label><span id="spmin"></span>
+
+                <label>之間</label>
+            </div>
+        </div>
+    </body>
+</html>

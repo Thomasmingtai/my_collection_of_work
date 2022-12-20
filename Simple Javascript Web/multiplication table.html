@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <style>
+            *{
+                box-sizing: border-box;
+            }
+            #print{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            td{
+                width: 10vw;
+            }
+          
+        </style>
+        
+        <script language="javascript">
+            function main(){
+                var targetTable = document.getElementById("table");
+                var content="";
+                for(var i=1;i<10;i+=3){
+                    content+="<tr><td colspan='3'>*</td></tr>";
+                    for(var j=1;j<10;j++){
+                        content+="<tr><td>"+ i + "*" + j + "=" + (i * j) +"</td><td>"+ (i +1) + "*" + j + "=" + ((i + 1) * j) +"</td><td>"+ (i +2) + "*" + j + "=" + ((i + 2) * j) +"</td></tr>";
+                    }
+                }
+                targetTable.innerHTML=content;
+            }
+            
+        </script>
+    </head>
+    <body >
+        
+        <div>
+            <br>
+             <input type="button" id="run" value="run" onclick="main()">
+            <br>
+        </div>
+        <hr>
+        <div id="print">
+            <table id="table" border="1"></table>
+        </div>
+    </body>
+</html>
