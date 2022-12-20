@@ -1,0 +1,9 @@
+編輯器：
+Apache-NetBeans Ver.15
+	需求：Java SDK Ver.17
+
+網頁伺服器：
+XAMPP Ver.8.0.19
+
+資料庫：
+XAMPP MariaDB
