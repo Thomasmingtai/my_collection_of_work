@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--八皇后衍生版 n皇后  隨機結果-->
+<html>
+    <head>
+        <title>eight queens</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            //設定變數儲存棋盤格數、棋盤狀況、棋子位置
+            var blockNumber = 0;
+            var checkerBoard = new Array();
+            var piecePosition = new Array();
+            
+        /*流程控制函數*/
+            //檢驗輸入的棋盤格數是否有解，若有解則進入計算
+            function setBlockNumber(){
+                blockNumber = parseInt(document.getElementById("queenNumber").value);
+                if((blockNumber < 1) || (blockNumber > 1 && blockNumber < 4)){
+                    alert("The Situation Dosen't Exist!!");
+                    document.getElementById("queenNumber").value ="";
+                }else{
+                    calculate();
+                }
+            }
+            //計算流程
+            function calculate(){
+                //將棋盤狀況設定成要求的格數
+                setCheckerBoard();
+                
+                //開始逐行擺放棋子
+                let piece = 0;
+                while(piece < blockNumber){
+                    bandPosition(piece); //禁止無法擺放之位置
+                    let pass = checkPass(piece); //確認可擺放之位置數
+                    
+                    //若可擺的位置數大於0則擺放棋子，若無法擺放則退回上一顆棋子重擺
+                    if(pass > 0){
+                        setPiece(piece, pass); //擺放棋子
+                        piece++;
+                    }else{
+                        resetPiece(piece); //清空無法擺放之行
+                        piece--;
+                    }
+                }
+                
+                //輸出結果
+                printBoard();
+                //清空變數
+                resetCheckerBoard();
+            }
+            
+            
+        /*計算函數(含變數清空)*/
+            //將棋盤狀況設定成要求的格數
+            function setCheckerBoard(){
+                for(let i = 0; i < blockNumber; i++){
+                    let arr = new Array();
+                    for(let j = 0; j < blockNumber; j++){
+                        arr.push(0);
+                    }
+                    checkerBoard.push(arr);
+                    piecePosition.push(-1);
+                }
+            }
+            //禁止無法擺放之位置
+            function bandPosition(piece){
+                for(let seted = 0; seted < piece; seted++){
+                    let bandPosition = piecePosition[seted];
+                    checkerBoard[piece][bandPosition] = 1;
+                        
+                    if((bandPosition + (piece - seted)) < blockNumber){
+                        checkerBoard[piece][bandPosition + (piece - seted)] = 1;
+                    }
+                    if((bandPosition - (piece - seted)) >= 0){
+                        checkerBoard[piece][bandPosition - (piece - seted)] = 1;
+                    }
+                }
+            }
+            //確認可擺放之位置數
+            function checkPass(piece){
+                let emptyBlock = 0;
+                for(let i = 0; i < blockNumber; i++){
+                    if(checkerBoard[piece][i] === 0){
+                        emptyBlock++;
+                    }
+                }
+                return emptyBlock;
+            }
+            //擺放棋子
+            function setPiece(piece, pass){
+                let setP = parseInt(Math.random() * pass);
+                let block = 0;
+                for(let i = 0; i < blockNumber; i++){
+                    if(checkerBoard[piece][i] === 0){
+                        if(block===setP){
+                            piecePosition[piece] = i;
+                            checkerBoard[piece][i] = 1;
+                            break;
+                        }else{
+                            block++;
+                        }
+                    }
+                }
+            }
+            //清空無法擺放之行
+            function resetPiece(piece){
+                piecePosition[piece] = -1;
+                for(let i = 0; i < blockNumber; i++){
+                    checkerBoard[piece][i] = 0;
+                }
+            }
+            //清空變數
+            function resetCheckerBoard(){
+                piecePosition.splice(0, piecePosition.length);
+                checkerBoard.splice(0, checkerBoard.length);
+            }
+            
+        /*輸出函數*/
+            //切換至棋盤格數設置
+            function printSet(){
+                let str="<input type='number' id='queenNumber' placeholder='Enter Queen Number'>\n\
+                         <input type='button' value='calculate' onclick='setBlockNumber()'>";
+                print(str);
+            }
+            //切換至計算結果
+            function printBoard(){
+                let str = "<table>";
+                for(let i = 0; i < blockNumber; i++){
+                    str+="<tr>";
+                    for(let j = 0; j < blockNumber; j++){
+                        if((i + j) % 2 === 1){
+                            str+="<td style='background-color: #dddddd;'>";
+                        }else{
+                            str+="<td>";
+                        }
+                        if(piecePosition[i]===j){
+                            str+="@</td>";
+                        }else{
+                            str+="</td>";
+                        }
+                    }
+                    str+="</tr>";
+                }
+                str+="</table> <input type='button' value='Another Solution' onclick='calculate()'>\n\
+                        <input type='button' value='Reset' onclick='printSet()'>";
+                print(str);
+            }
+            //資料輸出
+            function print(str){
+                document.getElementById("print").innerHTML=str;
+            }
+        </script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            table{
+                border-collapse: collapse;
+            }
+            td{
+                height: 30px;
+                width: 30px;
+                border: 3px black solid;
+                font-size: 30px;
+            }
+            img{
+                height: 100%;
+                width: 100%;
+            }
+            #position{
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body onload="printSet();">
+        
+        <div id="position"><div id="print"></div></div>
+        
+    </body>
+</html>
